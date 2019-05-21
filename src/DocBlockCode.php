@@ -106,7 +106,8 @@ class DocBlockCode
                 $typeAnnotation = '(?::)?(begin|fragment|end)';
                 // Regex to extract name of extraction
                 $nameAnnotation = '((?:(?<!\n)[^\S\r\n]+)\S+)?';
-                preg_match_all('/' . $startAnnotation . $typeAnnotation . '?\s{0,}' . $nameAnnotation . '\s{0,}\n(.*?)(?:\n{0,}\s{0,})' . $endAnnotation . '/s', $content, $matches, PREG_SET_ORDER);
+                //echo $startAnnotation . $typeAnnotation . '?\s{0,}' . $nameAnnotation . '(?=\s{0,}\n)\n(.*?)' . $endAnnotation;exit;
+                preg_match_all('/' . $startAnnotation . $typeAnnotation . '?\s{0,}' . $nameAnnotation . '(?=\s{0,}\n)\n(.*?)' . $endAnnotation . '/s', $content, $matches, PREG_SET_ORDER);
 
                 foreach ($matches as $match) {
                     [$full, $type, $name, $content] = $match;
@@ -169,7 +170,10 @@ class DocBlockCode
         // map names and content to easier inserting
         $map = [];
         foreach ($contents as $item) {
-            $map[$item->getName()] = $item->getContent();
+        	if (!array_key_exists($item->getName(), $map)) {
+				$map[$item->getName()] = '';
+			}
+				$map[$item->getName()] .= $item->getContent();
         }
 
         do {

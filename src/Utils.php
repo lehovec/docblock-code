@@ -43,7 +43,7 @@ class Utils
                 }, $match[0]));
             }
         }
-        return preg_replace('/^[^\S\r\n]{0,' . $min . '}/m', '', $string);
+        return preg_replace('/^[^\S\r\n]{' . $min . '}/m', '', $string);
     }
 
 
